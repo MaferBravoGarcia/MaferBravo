@@ -1,4 +1,4 @@
-#María Fernanda Bravo García
+#MarÃ­a Fernanda Bravo GarcÃ­a
 #Manual Seq.time
 
 #Librerias 
@@ -39,14 +39,14 @@ save(matrizKlemm, file = "MatrizKlemm.RData")
 # "Largest value: 0.487130493974374"
 # "Smallest value: -0.5"
 
-#2) Abundancias iniciales con gLV (diferentes a las generadas por una distribución de Poisson)
+#2) Abundancias iniciales con gLV (diferentes a las generadas por una distribuciÃ³n de Poisson)
 dataset = generateDataSet(S, A)
 dataset = seqtime::normalize(dataset)
 dataset = melt(dataset)
 colnames(dataset) = c("Species", "Sample", "Abundance")
 ggplot(data=dataset, aes(x=dataset$Sample, y=dataset$Abundance, width=1)) + geom_bar(aes(y = dataset$Abundance, x= dataset$Sample, fill=dataset$Species), data=dataset, stat="identity", show.legend=F) + theme(aspect.ratio=.4) + theme_classic()+ ylab("Relative abundance") + xlab("Sample")
 save(dataset, file = "abundanciasgLV.RData")
-#3) Para la red a partir de la matriz de interacción 
+#3) Para la red a partir de la matriz de interacciÃ³n 
 plotA(A, method = "network")
 
 #[1] "Largest value: 0.466089489392224"
@@ -56,7 +56,7 @@ plotA(A, method = "network")
 #[1] "Final connectance: 0.0518707482993197"
 
 #4)Simulate a test time series with:
-#SIN PERTURBACIÓN 
+#SIN PERTURBACIÃ“N 
 ##the Ricker community model
 out.rickers=ricker(N,A=A, tend=250)
 tsplot(out.rickers,main="Ricker sin ")
@@ -74,7 +74,7 @@ out.sois= soi(N, A=A, I=1500, tend=250)
 tsplot(out.sois, main= "SOI sin")
 save(out.sois, file = "TimeSOISin.RData" )
 
-#CON PERTURBACIÓN
+#CON PERTURBACIÃ“N
 gc=runif(50, min =-1, max=1)
 pert=perturbation(times = c(100), durations = (50), growthchanges = gc)
 ##the Ricker community model
@@ -139,66 +139,29 @@ plotA(sc,header="SOICon")
 par(mfrow=c(1,1))
 
 #REDES 
-N = 50 
-S = 40
-rownames(A)=c(1:N)
-colnames(A)=rownames(A)
-rA=plotA(A, method = "network")
-#####ESTO ES LO QUE NO CORRE
-createNetworkFromGraph(rA, "Red Conocida")
+na=graph_from_adjacency_matrix(A, mode="directed", weighted=TRUE)
+plot(na, main="Conocida")
 
-rownames(rs)=c(1:N)
-colnames(rs)=rownames(rs)
-plotA(rs, method = "network")
+nrs=graph_from_adjacency_matrix(rs, mode="directed", weighted=TRUE)
+plot(nrs, main="Ricker Sin")
 
-rownames(rc)=c(1:N)
-colnames(rc)=rownames(rc)
-plotA(rc, method = "network")
+nrc=graph_from_adjacency_matrix(rc, mode="directed", weighted=TRUE)
+plot(nrc, main="Ricker Con")
 
-rownames(gs)=c(1:N)
-colnames(gs)=rownames(gs)
-plotA(gs, method = "network")
+ngs=graph_from_adjacency_matrix(gs, mode="directed", weighted=TRUE)
+plot(ngs, main="gLV Sin")
 
-rownames(gc)=c(1:N)
-colnames(gc)=rownames(gc)
-plotA(gc, method = "network")
+ngc=graph_from_adjacency_matrix(gc, mode="directed", weighted=TRUE)
+plot(ngc, main="gLV Con")
 
-rownames(hs)=c(1:N)
-colnames(hs)=rownames(hs)
-plotA(hs, method = "network")
+nhs=graph_from_adjacency_matrix(hs, mode="directed", weighted=TRUE)
+plot(nhs, main="Hubbell Sin")
 
-rownames(hc)=c(1:N)
-colnames(hc)=rownames(hc)
-plotA(hc, method = "network")
+nhc=graph_from_adjacency_matrix(hc, mode="directed", weighted=TRUE)
+plot(nhc, main="Hubbell Con")
 
-rownames(ss)=c(1:N)
-colnames(ss)=rownames(ss)
-plotA(ss, method = "network")
+nss=graph_from_adjacency_matrix(ss, mode="directed", weighted=TRUE)
+plot(nss, main="SOI Sin")
 
-rownames(sc)=c(1:N)
-colnames(sc)=rownames(sc)
-plotA(sc, method = "network")
-
-
-
-#NO CORRER ESTO
- setwd("~/Microbiología/Tesis/Tesis2/Tesis2")
- load("~/Microbiología/Tesis/Tesis2/Tesis2/Matriz.RData")
- load("~/Microbiología/Tesis/Tesis2/Tesis2/MatrizKlemm.RData")
- load("~/Microbiología/Tesis/Tesis2/Tesis2/abundanciasgLV.RData")
- load("~/Microbiología/Tesis/Tesis2/Tesis2/TimegLVCon.RData")
- load("~/Microbiología/Tesis/Tesis2/Tesis2/TimegLVSin.RData")
- load("~/Microbiología/Tesis/Tesis2/Tesis2/TimeHubbellCon.RData")
- load("~/Microbiología/Tesis/Tesis2/Tesis2/TimeHubbellSin.RData")
- load("~/Microbiología/Tesis/Tesis2/Tesis2/TimeRickerCon.RData")
- load("~/Microbiología/Tesis/Tesis2/Tesis2/TimeRickerSin.RData")
- load("~/Microbiología/Tesis/Tesis2/Tesis2/TimeSOICon.RData")
- load("~/Microbiología/Tesis/Tesis2/Tesis2/TimeSOISin.RData")
- load("~/Microbiología/Tesis/Tesis2/Tesis2/RedgLVCon.RData")
- load("~/Microbiología/Tesis/Tesis2/Tesis2/RedgLVSin.RData")
- load("~/Microbiología/Tesis/Tesis2/Tesis2/RedHubbellCon.RData")
- load("~/Microbiología/Tesis/Tesis2/Tesis2/RedHubbellSin.RData")
- load("~/Microbiología/Tesis/Tesis2/Tesis2/RedRickerCon.RData")
- load("~/Microbiología/Tesis/Tesis2/Tesis2/RedRickerSin.RData")
- load("~/Microbiología/Tesis/Tesis2/Tesis2/RedSOICon.RData")
- load("~/Microbiología/Tesis/Tesis2/Tesis2/RedSOISin.RData")
+nsc=graph_from_adjacency_matrix(sc, mode="directed", weighted=TRUE)
+plot(nsc, main="SOI Con")
